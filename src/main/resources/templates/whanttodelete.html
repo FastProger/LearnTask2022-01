@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Библиотека</title>
+</head>
+<body>
+<a th:href="'/' + ${id}+'/delete'">Да, нужно удалить.</a>
+<br><br>
+<a th:href="'/' + ${id}+'/read'">Не удалять.</a>
+<br><br>
+
+
+<div th:if="${#httpServletRequest.remoteUser}">
+    <br>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
+</div>
+
+</body>
+</html>

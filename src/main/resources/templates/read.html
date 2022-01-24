@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Библиотека</title>
+</head>
+<body>
+<a href="/">Вернуться на главную страницу без сохранения.</a> <br> <br>
+<div th:each="b : ${books}">
+      <a th:href="'/' + ${b.id} + '/download'" th:download="${b.author} + ' - ' + ${b.title} +'.txt'">Скачать книгу</a> <br> <br>
+
+     <a th:href="'/' + ${b.id} + '/whanttodelete'">Удалить книгу</a> <br> <br>
+     <a th:href="'/' + ${b.id} + '/edit'">Редактировать книгу</a> <br> <br>
+
+    <img th:if="${b.img ne null}" th:src="'/' + ${b.id} + '/readimg'" width=100>
+
+    <h1>[[${b.title}]]</h1>
+    <i>Жанры: [[${b.genre}]] <br> Автор: [[${b.author}]] </i><br>
+    <p>[[${b.text}]]</p>
+</div>
+
+
+<div th:if="${#httpServletRequest.remoteUser}">
+    <br>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
+</div>
+
+</body>
+</html>

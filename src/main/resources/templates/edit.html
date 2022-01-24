@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Библиотека</title>
+</head>
+<body>
+<h3 th:inline="text">Авторизованный пользователь: [[${#httpServletRequest.remoteUser}]]</h3>
+
+<a href="/">Вернуться на главную страницу без сохранения.</a> <br><br>
+
+<div th:each="b : ${books}">
+
+  <a th:href="'/' + ${b.id} + '/read'">Вернуться к просмотру rybub без сохранения.</a> <br><br>
+
+  <img th:if="${b.img ne null}" th:src="'/' + ${b.id} + '/readimg'" width=100><br>
+
+<form th:action="'/' + ${b.id} + '/edit'" method="post" enctype="multipart/form-data">
+  Название: <br><input type="text" name="title" placeholder="Введите название статьи" style="width:500px" th:value="${b.title}"><br>
+  Жанры (через пробел) <br><input type="text" name="genre" placeholder="Перечислите жанры через пробел" style="width:500px" th:value="${b.genre}"><br>
+  Обложка <br><input type="file" name="img" accept="image/png,image/jpeg,image/jpg"><br>
+  Статья:<br>
+  <textarea name="text" style="width:500px;height:400px" th:text="${b.text}"/>
+  <br><button type="submit">Сохранить изменения</button>
+  <br><br><br>
+</form>
+
+</div>
+
+<form th:action="@{/logout}" method="post">
+  <input type="submit" value="Sign Out"/>
+</form>
+
+</body>
+</html>

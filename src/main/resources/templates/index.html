@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Библиотека</title>
+</head>
+<body>
+ <h1 th:inline="text">Привет [[${#httpServletRequest.remoteUser}]]!</h1>
+ <a href="/add">Добавить книжку</a>
+ <br><br>
+ <a href="/search">Поиск</a><br><br>
+
+ Книги: <br>
+
+ <div th:each="b : ${books}">
+     <a th:href="'/' + ${b.id}+'/read'" th:text="${b.title}"/> (Жанры: [[${b.genre}]], Автор: [[${b.author}]])<br>
+ </div>
+
+
+ <div th:if="${#httpServletRequest.remoteUser}">
+     <br>
+     <form th:action="@{/logout}" method="post">
+         <input type="submit" value="Выйти"/>
+     </form>
+ </div>
+
+</body>
+</html>

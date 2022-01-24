@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Библиотека</title>
+</head>
+<body>
+<h3>Авторизованный пользователь: [[${#httpServletRequest.remoteUser}]]</h3>
+
+<a href="/">Вернуться на главную страницу без сохранения.</a> <br>
+<form action="/add" method="post" enctype="multipart/form-data">
+    Название: <br><input type="text" name="title" placeholder="Введите название статьи" style="width:500px"><br>
+    Жанры (через пробел) <br><input type="text" name="genre" placeholder="Перечислите жанры через пробел" style="width:500px"><br>
+    Обложка <br><input type="file" name="img" accept="image/png,image/jpeg,image/jpg"><br>
+    Статья:<br>
+    <textarea name="text" style="width:500px;height:400px"></textarea>
+    <br>
+    <input type="submit" value="Опубликовать книгу"/>
+</form>
+
+<br><br><br>
+
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+</body>
+</html>
