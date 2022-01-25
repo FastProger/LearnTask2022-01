@@ -15,7 +15,7 @@ public interface booksrepository  extends CrudRepository<books, Long> {
             + "and (author=:author or '-'=:author) "
             + "and (' ' || genre || ' ' like '% ' || :genre ||' %' or '-'=:genre) "
             + "and lower(text) like lower('%' || :text ||'%')")
-    List<books> findByCond(@Param("title") String searchtitle,@Param("author") String searchauthor, @Param("genre") String searchgenre, @Param("text") String searchtext);
+    List<books> findByCond(@Param("title") String searchtitle, @Param("author") String searchauthor, @Param("genre") String searchgenre, @Param("text") String searchtext);
 
     @Query("select new books(id, title, author, genre, text) "
             + "from books order by random()")

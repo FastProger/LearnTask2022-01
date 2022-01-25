@@ -1,4 +1,4 @@
---create database books;
+--create database test;
 
 create table users (
  id int not null,

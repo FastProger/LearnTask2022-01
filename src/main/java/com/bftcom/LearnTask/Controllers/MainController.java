@@ -1,7 +1,8 @@
-package com.bftcom.LearnTask.models.Controllers;
+package com.bftcom.LearnTask.Controllers;
 
 import com.bftcom.LearnTask.Repo.booksrepository;
 import com.bftcom.LearnTask.models.books;
+import com.bftcom.LearnTask.services.BooksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +26,9 @@ public class MainController {
 
     @Autowired
     private booksrepository booksrep;
+
+    @Autowired
+    BooksService booksservice;
 
     @GetMapping("/")
     public String mainpage(Model model) {
@@ -101,10 +105,9 @@ public class MainController {
 
     @GetMapping("/{id}/read")
     public String readpage(@PathVariable(value = "id") Long id, Model model) {
-        Optional<books> book = booksrep.findById(id);
-        ArrayList<books> res = new ArrayList<>();
-        book.ifPresent(res::add);
+        books res = booksservice.findBookByID(id);
         model.addAttribute("books", res);
+
         return "read";
     }
 

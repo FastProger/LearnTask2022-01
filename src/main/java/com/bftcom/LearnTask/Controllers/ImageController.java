@@ -1,4 +1,4 @@
-package com.bftcom.LearnTask.models.Controllers;
+package com.bftcom.LearnTask.Controllers;
 
 import com.bftcom.LearnTask.Repo.booksrepository;
 import com.bftcom.LearnTask.models.books;
