@@ -20,14 +20,21 @@ public class BooksService {
     }
 
     public books findBookByID(Long id) {
-        bks=HibernateSessionFactoryUtil.getSessionFactory().openSession().get(books.class, id);
-        return bks;
+        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(books.class, id);
     }
 
     public static void addBook(books book) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
         session.save(book);
+        tx1.commit();
+        session.close();
+    }
+    public static void deleteBookById(Long id)
+    {   books b = HibernateSessionFactoryUtil.getSessionFactory().openSession().get(books.class, id);
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().getCurrentSession();
+        Transaction tx1 = session.beginTransaction();
+        session.delete(b);
         tx1.commit();
         session.close();
     }

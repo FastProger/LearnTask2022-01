@@ -106,7 +106,6 @@ public class MainController {
     @GetMapping("/{id}/read")
     public String readpage(@PathVariable(value = "id") Long id, Model model) {
         model.addAttribute("books", booksservice.findBookByID(id));
-
         return "read";
     }
 
@@ -118,7 +117,7 @@ public class MainController {
 
     @GetMapping("/{id}/delete")
     public String todelete(@PathVariable("id") Long id, Model model) {
-        booksrep.deleteById(id);
+        booksservice.deleteBookById(id);
         return "redirect:/";
     }
 
