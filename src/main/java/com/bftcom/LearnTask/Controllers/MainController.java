@@ -166,13 +166,12 @@ public class MainController {
                 genre = genre.replace("  ", " ");
             } while (!oldg.equals(genre));
 
-            Optional<books> b = booksrep.findById(id);
-            if (!img.isEmpty()) b.get().setImg(img);
-            b.get().setGenre(genre);
-            b.get().setText(text);
-            b.get().setTitle(title);
-
-            booksrep.save(b.get());
+            books b = booksservice.findBookByID(id);
+            b.setGenre(genre);
+            b.setText(text);
+            b.setTitle(title);
+            if (!img.isEmpty()) b.setImg(img);
+            booksservice.updateBook(b);
             return "redirect:/";
         }
     }
