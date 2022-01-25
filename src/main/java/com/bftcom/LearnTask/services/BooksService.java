@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class BooksService {
 
@@ -18,6 +21,15 @@ public class BooksService {
     private books bks = new books();
 
     public BooksService() {
+    }
+
+    public List<books>  getrandombooks() {
+        List<books> b=new ArrayList<>();
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        b=session.createSQLQuery("select id, title, author, genre, text, img "
+                + "from books order by random() limit 10").addEntity("books",books.class).list();
+        session.close();
+        return b;
     }
 
     public books findBookByID(Long id) {

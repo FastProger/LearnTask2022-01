@@ -32,12 +32,7 @@ public class MainController {
 
     @GetMapping("/")
     public String mainpage(Model model) {
-        List<books> allbooks = booksrep.findByRND();
-        List<books> tenbooks = new ArrayList<>();
-        int c=allbooks.size();
-        if (c>10) c=10;
-        for (int i=0;i<c;i++) tenbooks.add(allbooks.get(i));
-        model.addAttribute("books", tenbooks);
+        model.addAttribute("books", booksservice.getrandombooks());
         return "index";
     }
 
