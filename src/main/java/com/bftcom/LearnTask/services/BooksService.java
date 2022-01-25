@@ -7,9 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,13 +19,32 @@ public class BooksService {
     private books bks = new books();
 
     public BooksService() {
+
+    }
+
+    public List<books> getallbooks() {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        List<books> b=session.createSQLQuery("select id, title, author, genre, text, img from books").addEntity("books",books.class).list();
+        session.close();
+        return b;
     }
 
     public List<books>  getrandombooks() {
-        List<books> b=new ArrayList<>();
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        b=session.createSQLQuery("select id, title, author, genre, text, img "
+        List<books> b=session.createSQLQuery("select id, title, author, genre, text, img "
                 + "from books order by random() limit 10").addEntity("books",books.class).list();
+        session.close();
+        return b;
+    }
+
+    public List<books> getsearchedbooks(String searchtitle,String searchauthor,String searchgenre,String searchtext){
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        String sql="select id, title, author, genre, text, img from books where lower(text) like lower('%"+searchtext+"%')";
+        if (!searchtitle.equals("")) sql=sql+" and lower(title) like lower('%" +searchtitle + "%')";
+        if (!searchauthor.equals("-")) sql=sql+" and author='"+ searchauthor+"'";
+        if (!searchgenre.equals("-")) sql=sql+" and  ' ' || genre || ' ' like '% "+ searchgenre +" %'";
+
+        List<books> b=session.createSQLQuery(sql).addEntity("books",books.class).list();
         session.close();
         return b;
     }

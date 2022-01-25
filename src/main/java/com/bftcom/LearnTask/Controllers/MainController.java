@@ -18,14 +18,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 
 @Controller
 public class MainController {
-
-    @Autowired
-    private booksrepository booksrep;
 
     @Autowired
     BooksService booksservice;
@@ -50,7 +46,7 @@ public class MainController {
     }
 
     public Model searchpage(String title, String author, String genre, String text, Model model) {
-        Iterable<books> bs = booksrep.findAll();
+        List<books> bs = booksservice.getallbooks();
         String s;
         String[] w;
         //получаем полный список известных жанров из БД
@@ -82,8 +78,7 @@ public class MainController {
         model.addAttribute("title", title);
 
         //получаем список книг
-        Iterable<books> allbooks = booksrep.findByCond(title, author, genre, text);
-        model.addAttribute("books", allbooks);
+        model.addAttribute("books", booksservice.getsearchedbooks(title, author, genre, text));
 
         return model;
     }
