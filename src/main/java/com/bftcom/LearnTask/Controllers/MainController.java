@@ -105,8 +105,7 @@ public class MainController {
 
     @GetMapping("/{id}/read")
     public String readpage(@PathVariable(value = "id") Long id, Model model) {
-        books res = booksservice.findBookByID(id);
-        model.addAttribute("books", res);
+        model.addAttribute("books", booksservice.findBookByID(id));
 
         return "read";
     }
@@ -145,17 +144,14 @@ public class MainController {
             books b;
             if (img.isEmpty()) b = new books(title, author, genre, text);
             else b = new books(title, author, genre, text, img);
-            booksrep.save(b);
+            BooksService.addBook(b);
             return "redirect:/";
         }
     }
 
     @GetMapping("/{id}/edit")
     public String editpage(@PathVariable(value = "id") Long id, Model model) {
-        Optional<books> book = booksrep.findById(id);
-        ArrayList<books> res = new ArrayList<>();
-        book.ifPresent(res::add);
-        model.addAttribute("books", res);
+        model.addAttribute("books", booksservice.findBookByID(id));
         return "edit";
     }
 
