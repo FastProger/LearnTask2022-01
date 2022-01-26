@@ -1,14 +1,18 @@
 package com.bftcom.LearnTask.services;
 
+import com.bftcom.LearnTask.Config.SpringJdbcConfig;
 import com.bftcom.LearnTask.models.books;
 import com.bftcom.LearnTask.Repo.booksrepository;
 import com.bftcom.LearnTask.utils.HibernateSessionFactoryUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 
 @Service
 public class BooksService {
@@ -18,9 +22,7 @@ public class BooksService {
 
     private books bks = new books();
 
-    public BooksService() {
-
-    }
+    private JdbcTemplate jdbcTemplate = new JdbcTemplate(SpringJdbcConfig.getDataSource());;
 
     public List<books> getallbooks() {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
@@ -30,10 +32,7 @@ public class BooksService {
     }
 
     public List<books>  getrandombooks() {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        List<books> b=session.createSQLQuery("select id, title, author, genre, text, img "
-                + "from books order by random() limit 10").addEntity("books",books.class).list();
-        session.close();
+        List<books> b = jdbcTemplate.query("select id, title, author, genre, text, img from books order by random() limit 10",booksrepository.ROW_MAPPER);
         return b;
     }
 

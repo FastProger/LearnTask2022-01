@@ -67,6 +67,15 @@ public class books {
     public books() {
     }
 
+    public books(Long id, String title, String author, String genre, String text, byte[] img)  {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.genre = genre;
+        this.text = text;
+        this.img=img;
+    }
+
     public books(Long id, String title, String author, String genre, String text)  {
         this.id = id;
         this.title = title;
