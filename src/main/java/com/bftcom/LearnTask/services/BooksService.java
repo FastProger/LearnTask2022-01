@@ -25,9 +25,7 @@ public class BooksService {
     private JdbcTemplate jdbcTemplate = new JdbcTemplate(SpringJdbcConfig.getDataSource());;
 
     public List<books> getallbooks() {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        List<books> b=session.createSQLQuery("select id, title, author, genre, text, img from books").addEntity("books",books.class).list();
-        session.close();
+        List<books> b = jdbcTemplate.query("select id, title, author, genre, text, img from books",booksrepository.ROW_MAPPER);
         return b;
     }
 
@@ -37,19 +35,24 @@ public class BooksService {
     }
 
     public List<books> getsearchedbooks(String searchtitle,String searchauthor,String searchgenre,String searchtext){
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         String sql="select id, title, author, genre, text, img from books where lower(text) like lower('%"+searchtext+"%')";
         if (!searchtitle.equals("")) sql=sql+" and lower(title) like lower('%" +searchtitle + "%')";
         if (!searchauthor.equals("-")) sql=sql+" and author='"+ searchauthor+"'";
         if (!searchgenre.equals("-")) sql=sql+" and  ' ' || genre || ' ' like '% "+ searchgenre +" %'";
 
-        List<books> b=session.createSQLQuery(sql).addEntity("books",books.class).list();
-        session.close();
+        List<books> b = jdbcTemplate.query(sql,booksrepository.ROW_MAPPER);
         return b;
     }
 
     public books findBookByID(Long id) {
         return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(books.class, id);
+    }
+    public static void updateBook(books b)
+    {   Session session = HibernateSessionFactoryUtil.getSessionFactory().getCurrentSession();
+        Transaction tx1 = session.beginTransaction();
+        session.update(b);
+        tx1.commit();
+        session.close();
     }
 
     public static void addBook(books book) {
@@ -60,20 +63,10 @@ public class BooksService {
         session.close();
     }
 
-    public static void deleteBookById(Long id)
-    {   books b = HibernateSessionFactoryUtil.getSessionFactory().openSession().get(books.class, id);
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().getCurrentSession();
-        Transaction tx1 = session.beginTransaction();
-        session.delete(b);
-        tx1.commit();
-        session.close();
+    public void deleteBookById(Long id)
+    {   Object[] args = new Object[] {id};
+        jdbcTemplate.update("delete from books where id= ?",args);
     }
-    public static void updateBook(books b)
-    {   Session session = HibernateSessionFactoryUtil.getSessionFactory().getCurrentSession();
-        Transaction tx1 = session.beginTransaction();
-        session.update(b);
-        tx1.commit();
-        session.close();
-    }
+
 
 }
