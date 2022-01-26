@@ -86,6 +86,7 @@ public class books {
 
     public books(String title, String author, String genre, String text, MultipartFile img) throws IOException {
         byte[] byteArr = img.getBytes();
+        this.id=null;
         this.title = title;
         this.author = author;
         this.genre = genre;
@@ -94,6 +95,7 @@ public class books {
     }
 
     public books(String title, String author, String genre, String text) {
+        this.id=null;
         this.title = title;
         this.author = author;
         this.genre = genre;

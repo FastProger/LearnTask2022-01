@@ -1,6 +1,5 @@
 package com.bftcom.LearnTask.Controllers;
 
-import com.bftcom.LearnTask.Repo.booksrepository;
 import com.bftcom.LearnTask.models.books;
 import com.bftcom.LearnTask.services.BooksService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,7 +132,7 @@ public class MainController {
             books b;
             if (img.isEmpty()) b = new books(title, author, genre, text);
             else b = new books(title, author, genre, text, img);
-            BooksService.addBook(b);
+            booksservice.addBook(b);
             return "redirect:/";
         }
     }
