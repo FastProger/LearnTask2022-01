@@ -28,6 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**/read").permitAll()
                 .antMatchers("/**/readimg").permitAll()
                 .antMatchers("/search").permitAll()
+                .antMatchers("/**/download").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
